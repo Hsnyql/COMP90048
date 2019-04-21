@@ -13,3 +13,6 @@ ancestor(Anc, Desc) :-
 ancestor(Anc, Desc) :-
         parent(Parent, Desc),
         ancestor(Anc, Parent).
+
+grandparent(X, Z) :-
+        parent(X, Y), parent(Y, Z).
