@@ -1,4 +1,6 @@
 %correspond/4
+correspond(_, [], _, _).
+correspond(_, _, _, []).
 correspond(E1, [E1|_], E2, (E2|_)).
 correspond(E1, [_|Rest1], E2, [_|Rest2]):-
     correspond(E1, Rest1, E2, Rest2).
