@@ -40,15 +40,20 @@ interleave([X|Xs], [Y|Ys]):-
     interleave(Xrest, Yrest).
 
 partial_eval(+(A,B),Var,Val,E):-
-    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),((number(C),number(D),E is +(C,D));(\+ (number(C),number(D)),E = +(C,D))).
+    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),
+    ((number(C),number(D),E is +(C,D));(\+ (number(C),number(D)),E = +(C,D))).
 partial_eval(-(A,B),Var,Val,E):-
-    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),((number(C),number(D),E is -(C,D));(\+ (number(C),number(D)),E = -(C,D))).
+    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),
+    ((number(C),number(D),E is -(C,D));(\+ (number(C),number(D)),E = -(C,D))).
 partial_eval(*(A,B),Var,Val,E):-
-    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),((number(C),number(D),E is *(C,D));(\+ (number(C),number(D)),E = *(C,D))).
+    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),
+    ((number(C),number(D),E is *(C,D));(\+ (number(C),number(D)),E = *(C,D))).
 partial_eval(/(A,B),Var,Val,E):-
-    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),((number(C),number(D),E is /(C,D));(\+ (number(C),number(D)),E = /(C,D))).
+    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),
+    ((number(C),number(D),E is /(C,D));(\+ (number(C),number(D)),E = /(C,D))).
 partial_eval(//(A,B),Var,Val,E):-
-    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),((number(C),number(D),E is //(C,D));(\+ (number(C),number(D)),E = //(C,D))).
+    partial_eval(A,Var,Val,C),partial_eval(B,Var,Val,D),
+    ((number(C),number(D),E is //(C,D));(\+ (number(C),number(D)),E = //(C,D))).
 partial_eval(Expr0,Var,Val,Expr):-
     ground(Expr0),
     ground(Var),
@@ -56,4 +61,5 @@ partial_eval(Expr0,Var,Val,Expr):-
     \+ground(Expr),
     atom(Var),
     number(Val),
-    ((Expr0 = Var,Val = Expr); (Expr0 \= Var,Expr0 = Expr, (atom(Expr0); number(Expr0)))).
+    ((Expr0 = Var,Val = Expr); 
+    (Expr0 \= Var,Expr0 = Expr, (atom(Expr0); number(Expr0)))).
