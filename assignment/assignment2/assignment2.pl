@@ -62,4 +62,4 @@ partial_eval(Expr0,Var,Val,Expr):-
     atom(Var),
     number(Val),
     ((Expr0 = Var,Val = Expr); 
-    (Expr0 \= Var,Expr0 = Expr, (atom(Expr0); number(Expr0)))).
+    ((atom(Expr0); number(Expr0)), Expr0 \= Var,Expr0 = Expr)).
