@@ -63,3 +63,12 @@ partial_eval(Expr0,Var,Val,Expr):-
     number(Val),
     ((Expr0 = Var,Val = Expr); 
     ((atom(Expr0); number(Expr0)), Expr0 \= Var,Expr0 = Expr)).
+
+factorial(1,1).
+factorial(N, Res):-
+    N > 0,
+    N1 is N - 1,
+    factorial(N1, Res1),
+    Res is N * Res1.
+
+square(E1, E2):- E2 is E1 * E1.
