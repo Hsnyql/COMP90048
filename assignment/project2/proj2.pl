@@ -60,10 +60,10 @@ row([Value|Row]):-
 % apply the row/1 to each row
 % the elements of a row should be distinct
 row_constraint([]).
-row_constraint([H|T]):-
-    row(H),
-    all_distinct(H),
-    row_constraint(T).
+row_constraint([Hs|Ts]):-
+    row(Hs),
+    all_distinct(Hs),
+    row_constraint(Ts).
 
 % puzzle_solution/1
 % the requied answer of the project.
