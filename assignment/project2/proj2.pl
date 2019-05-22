@@ -16,7 +16,7 @@
 
 :- ensure_loaded(library(clpfd)).
 
-% diagonal/4
+% diagonal/3
 % Get the diagonal vuale, the number of row is the index on each row.
 diagonal([H|_], 0, H).
 diagonal([_|T], Row, Diag):-
@@ -24,7 +24,7 @@ diagonal([_|T], Row, Diag):-
     diagonal(T, Row1, Diag).
 
 
-% diagonal/4
+% diagonal/3
 % The diagonal values should be same
 diagonal_constraint([], _, _).
 diagonal_constraint([Hs|Ts], Row, Diag):-
