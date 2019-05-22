@@ -30,7 +30,7 @@ diagonal_constraint([], _, _).
 diagonal_constraint([Hs|Ts], Row, Diag):-
     diagonal(Hs, Row, Diag),
     Row1 is Row + 1,
-    digonal_constraint(Ts, Row1, Diag).
+    diagonal_constraint(Ts, Row1, Diag).
 
 % row_sum/2
 % calculate the sum of a row
