@@ -16,21 +16,21 @@
 
 :- ensure_loaded(library(clpfd)).
 
-% digonal/4
+% diagonal/4
 % Get the digunal vuale, the number of row is the index on each row.
-digonal([H|_], 0, H).
-digonal([_|T], Row, Dig):-
+diagonal([H|_], 0, H).
+diagonal([_|T], Row, Diag):-
     Row1 is Row - 1,
-    digonal(T, Row1, Dig).
+    diagonal(T, Row1, Diag).
 
 
-% digonal/4
-% The digonal values should be same
-digonal_constraint([], _, _).
-digonal_constraint([Hs|Ts], Row, Dig):-
-    digonal(Hs, Row, Dig),
+% diagonal/4
+% The diagonal values should be same
+diagonal_constraint([], _, _).
+diagonal_constraint([Hs|Ts], Row, Diag):-
+    diagonal(Hs, Row, Diag),
     Row1 is Row + 1,
-    digonal_constraint(Ts, Row1, Dig).
+    digonal_constraint(Ts, Row1, Diag).
 
 % row_sum/2
 % calculate the sum of a row
@@ -67,10 +67,10 @@ row_constraint([Hs|Ts]):-
 
 % puzzle_solution/1
 % the requied answer of the project.
-% apply the constraint method of digonal, rows and columns
+% apply the constraint method of diagonal, rows and columns
 % transpose the rows to columns, the first column is the sum or product.
 puzzle_solution([H|T]):-
-    digonal_constraint(T, 1, _),
+    diagonal_constraint(T, 1, _),
     transpose([H|T], [_|Col]),
     row_constraint(T),
     row_constraint(Col),
