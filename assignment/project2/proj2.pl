@@ -17,7 +17,7 @@
 :- ensure_loaded(library(clpfd)).
 
 % diagonal/4
-% Get the digunal vuale, the number of row is the index on each row.
+% Get the diagonal vuale, the number of row is the index on each row.
 diagonal([H|_], 0, H).
 diagonal([_|T], Row, Diag):-
     Row1 is Row - 1,
