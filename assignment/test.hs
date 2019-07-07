@@ -1,201 +1,122 @@
-module Test where
-
-import Data.Maybe
-
-sumlist :: (Num a) => [a] -> a
-sumlist [] = 0
-sumlist (x:xs) = x + sumlist xs
 
 
-test :: (Eq a,Num a) => a -> Bool
-test x
-    |x == 0 = True
-    |otherwise = False
+transpose :: [[a]] -> [[a]]
+transpose [] =[]
+transpose list = map head list : transpose (map tail list)
 
-len :: [a] -> Int
-len [] = 0
-len (x:xs) = 1 + len xs
+data Tree a = Empty | Node (Tree a) a (Tree a)
 
-data Suit = Club | Diamond | Heart | Spade
-data Rank = R2 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | R10 | Jack | Queen | King | Ace
-data Card = Card Suit Rank
-data JokerColor = Red | Black
-data JCard = NormalCard Suit Rank | JokerCard JokerColor 
+treesort :: Ord a => [a] -> [a]
+treesort xs = tree_inorder (list_to_bst xs)
 
-data LibraryItem = 
-    Book Integer String String
-    | Periodical Integer String Period
+list_to_bst :: Ord a => [a] -> Tree a
+list_to_bst [] = Empty
+list_to_bst (x:xs) = bst_insert x (list_to_bst xs)
 
-data Period = Days Integer | Months Integer
+bst_insert :: Ord a => a -> Tree a -> Tree a
+bst_insert x Empty = Node Empty x Empty
+bst_insert x (Node l m r) =
+    if x < m then (Node (bst_insert x l) m r)
+    else (Node l m (bst_insert x r))
 
-title (Book _ title _) = title
-title (Periodical _ title _) = title
+tree_inorder :: Tree a -> [a]
+tree_inorder Empty =[]
+tree_inorder (Node l m r) = tree_inorder l ++ [m] ++ tree_inorder r
 
+transpose1 :: [[a]] -> [[a]]
+transpose1 [] = error "empty list"
+transpose1 list@(xs:xss) 
+    | len > 0 = transpose1' len list
+    | otherwise = error "zero"
+    where len = length xs
 
-data Tree k v= Leaf | Node k v (Tree k v) (Tree k v) deriving Show
-
-countnodes :: Tree k v -> Int
-countnodes Leaf = 0
-countnodes (Node _ _ l r) = 1 + (countnodes l) + (countnodes r)
-
-l1 = Leaf
-l2 = Leaf
-t1 = Node "t1" 1 tl tr
-tl = Node "tl" 2 l1 Leaf
-tr = Node "tr" 3 Leaf l2
-
-search_bst :: Ord k => Tree k v -> k -> Maybe v
-search_bst Leaf _ = Nothing
-search_bst (Node k v l r) sk =
-    if sk == k then Just v
-    else if sk < k then search_bst l sk
-    else search_bst r sk
-
--- insert_bst :: Tree -> String -> Int -> Tree
--- insert_bst Leaf ik iv = Node ik iv Leaf Leaf
--- insert_bst (Node k v l r) ik iv =
---     if ik == k then Node ik iv l r
---     else if ik < k then Node k v (insert_bst l ik iv) r
---     else Node k v l (insert_bst r ik iv)
+transpose1' :: Int -> [[a]] -> [[a]]
+transpose1' len [] = replicate len []
+transpose1' len (xs:xss) 
+    | len == length xs = zipWith (:) xs (transpose1' len xss)
+    | otherwise = error " non"
 
 
+maybeApply :: (a->b) -> Maybe a -> Maybe b
+maybeApply f Nothing = Nothing
+maybeApply f (Just x) = Just (f x)
+
+zwith :: (a -> b -> c) -> [a] -> [b] -> [c]
+zwith f [] _ = []
+zwith f _ [] = []
+zwith f (x:xs) (y:ys) = (f x y) : (zwith f xs ys)
+
+linearEqn :: Num a => a -> a -> [a] -> [a]
+linearEqn m n = map (\x -> m*x+n) 
 
 
+funca :: (Ord a, Floating a) => [a] -> [a]
+funca [] =[]
+funca list = map sqrt (filter (>= 0) list)
+
+funcb :: (Ord a, Floating a) => [a] -> [a]
+funcb [] = []
+funcb (x:xs) =
+    if x >= 0 then sqrt x : funcb xs
+    else funcb xs
 
 
-nonNegFlts :: (Ord a, Num a) => [a] -> [a]
-nonNegFlts [] =[]
-nonNegFlts (x:xs)
-    |x<0 = nonNegFlts xs
-    |otherwise = x : (nonNegFlts xs)
+maybe_tail :: [a] -> Maybe [a]
+maybe_tail [] = Nothing
+maybe_tail (x:xs) = Just xs
 
-sublists :: [a] -> [[a]]
-sublists [] = [[]]
-sublists (x:xs) = addToEach x restlist ++ restlist
-    where restlist = sublists xs
+maybe_drop :: Int -> [a] -> Maybe [a]
+maybe_drop 0 xs = Just xs
+maybe_drop n xs | n > 0 = maybe_tail xs >>= maybe_drop (n-1)
 
-addToEach :: a -> [[a]] -> [[a]]
-addToEach x [] = []
-addToEach x (y:ys) = (x:y) : (addToEach x ys)
+maybe_drop' :: Int -> [a] -> Maybe [a]
+maybe_drop' 0 xs = Just xs
+maybe_drop' n xs = | n > 0 =
+    let mt = maybe_tail xs in
+        case mt of
+            Nothing -> Nothing
+            Just xs1 -> maybe_drop (n-1) xs1
 
-insertList :: Ord a => a -> [a] -> [a]
-insertList elt [] = [elt]
-insertList elt (x:xs) =
-    if x < elt then x : insertList elt xs
-    else elt:x:xs
+data Tree a = Empty | Node (Tree a) a (Tree a)
+print_tree :: Show a => Tree a -> IO ()
+print_tree Empty = return ()
+print_tree (Node l m r) = do
+    print_tree l
+    print m
+    print_tree r
 
+str_to_num :: String -> Maybe Int
+str_to_num [] = Nothing
+str_to_num (x:xs) = str_to_num_acc 0 (x:xs)
 
-data BoolExpr
-    = BoolConst Bool
-    | BoolOp BoolOp BoolExpr BoolExpr
-    | CompOp CompOp IntExpr IntExpr
+str_to_num_acc :: Int -> String -> Maybe Int
+str_to_num_acc n [] = Just n
+str_to_num_acc n (x:xs) =
+    if isDigit x then str_to_num_acc (10*n + digitToInt x) xs
+    else Nothing
 
-data IntExpr
-    = IntConst Int
-    |IntOp IntOp IntExpr IntExpr
-    |IntIfThenElse BoolExpr IntExpr IntExpr
+sum_lines :: IO Int
+sum_lines = do
+    line <- getLine
+    case str_to_num line of
+        Nothing -> return ()
+        Just num -> do
+            sum <- sum_lines
+            return (sum+num)
 
-data BoolOp = And
-data CompOp = LessThan
-data IntOp = Plus | Times
+data Ttree t = Nil | Node3 t (Ttree t) (Ttree t) (Ttree t)
+aver :: Ttree Double -> Double
+aver Nil = 0.0
+aver (Node3 a left mid right) = 
+    let (sum, count) = aver' (Node3 a left mid right) in
+        sum/count
 
-boolExprValue :: BoolExpr -> Bool
-boolExprValue (BoolConst b) = b
-boolExprValue (BoolOp And e1 e2) = boolExprValue e1 && boolExprValue e2
-boolExprValue (CompOp LessThan e1 e2) = intExprValue e1 < intExprValue e2
+aver' :: Tree Double -> (Double, Double)
+aver' Nil = (0.0, 0.0)
+aver' (Node3 a left mid right) =
+    let (sum1, count1) = aver' left
+        (sum2, count2) = aver' mid
+        (sum3, count3) = aver' right
+    in (a+sum1+sum2+sum3, 1+count1+count2+count3)
 
-intExprValue :: IntExpr -> Int
-intExprValue (IntConst i) = i
-intExprValue (IntOp Plus e1 e2) = intExprValue e1 + intExprValue e2
-intExprValue (IntOp Times e1 e2) = intExprValue e1 * intExprValue e2
-intExprValue (IntIfThenElse b e1 e2) =
-    if boolExprValue b then intExprValue e1
-    else intExprValue e2
-
-iseven :: Int -> Bool
-iseven x = x `mod` 2 == 0
-
-together :: Num a => [a] -> [a]
-together [] = []
-together (x:xs) = (x-3):(together xs)
-
-data Customer = Customer {
-                name :: String,
-                number :: Int
-} deriving Show
-
-customername :: Customer -> String
-customername (Customer a _) = a
-
-getnames :: [Customer] -> [String]
-getnames customers = map customername customers
-
-getnames2 :: [Customer] -> [String]
-getnames2 = map name
-
-getnum :: Customer -> Int
-getnum (Customer _ a) = a
-
-getnums :: [Customer] -> [Int]
-getnums = map number
-
-a = Customer "A" 1
-b = Customer "B" 2
-c = Customer "C" 3
-
-customerlist = [a,b,c]
-
-
-
-
-sum1 :: Num a => [a] -> a
-sum1 = foldl (+) 0
-
-product1 :: Num a => [a] -> a
-product1 = foldl (*) 1
-
-concat1 :: [[a]] -> [a]
-concat1 = foldl (++) []
-
-foldb :: (e -> e -> e) -> e -> [e] -> e
-foldb _ b [] = b
-foldb _ _ (x:[]) = x
-foldb f b l@(_:_:_) =
-    let
-        len = length l
-        (half1, half2) = splitAt (div len 2) l
-        value1 = foldb f b half1
-        value2 = foldb f b half2
-    in
-        f value1 value2
-
-sumb :: Num a => [a] -> a
-sumb = foldb (+) 0
-
-
-equal :: Eq a => a -> a -> Bool
-equal a b = a == b
-
-htest :: Floating a => [a] -> a
-htest list = sqrt (sum (map (^2) list))
-
-htest2 :: Floating a => [a] -> a
-htest2 = sqrt.sum.map (^2)
-
-const1 :: a -> b -> a
-const1 a b = a
-
-length1 :: [a] -> Int
-length1 = foldr ((+).const1 1) 0
-
-rev :: [a] -> [a]
-rev [] = []
-rev [x] = [x]
-rev (x:xs) = (rev xs) ++ [x]
-
-snoc :: [a] -> a -> [a]
-snoc tl hd = hd:tl
-
-rev1 :: [a] -> [a]
-rev1 = foldl snoc []
 
