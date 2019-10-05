@@ -1,3 +1,0 @@
--- lookup
-:module +Data.Map
-:type Data.Map.lookup

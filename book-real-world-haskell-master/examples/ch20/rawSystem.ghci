@@ -1,5 +1,0 @@
--- s1
-:module System.Cmd
-rawSystem "ls" ["-l", "/usr"]
--- s2
-rawSystem "ls" []

@@ -1,6 +1,0 @@
-:m +Control.Monad
-
--- examples
-join (Just (Just 1))
-join Nothing
-join [[1],[2,3]]

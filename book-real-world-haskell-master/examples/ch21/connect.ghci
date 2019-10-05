@@ -1,5 +1,0 @@
--- conn
-:module Database.HDBC Database.HDBC.Sqlite3
-conn <- connectSqlite3 "test1.db"
-:type conn
-disconnect conn

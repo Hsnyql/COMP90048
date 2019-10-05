@@ -1,4 +1,0 @@
--- all
-:module System.Cmd
-rawSystem "ls" ["-l", "/usr"]
-

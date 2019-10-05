@@ -1,5 +1,0 @@
--- all
-:load naiveeq.hs
-colorEq Red Red
-colorEq Red Green
-

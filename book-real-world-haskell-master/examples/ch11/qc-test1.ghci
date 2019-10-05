@@ -1,6 +1,0 @@
-
-:load QC.hs
-quickCheck prop_empty_id
-
--- run_prop_empty
-quickCheck prop_empty_id

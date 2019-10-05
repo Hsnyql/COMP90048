@@ -1,8 +1,0 @@
-:m +Control.Concurrent.STM
-
--- unsafeIOToSTM
-:m +GHC.Conc
-:type unsafeIOToSTM
-
--- alwaysSucceeds
-:type alwaysSucceeds

@@ -1,6 +1,0 @@
-:load QC-basics.hs
-quickCheck (prop_idempotent :: [Integer] -> Bool)
-
--- basics
-:type quickCheck
-quickCheck (prop_idempotent :: [Integer] -> Bool)

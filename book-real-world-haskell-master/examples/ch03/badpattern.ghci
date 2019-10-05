@@ -1,8 +1,0 @@
-:load BadPattern
-
--- error
-badExample []
-
--- ok
-goodExample []
-goodExample [1,2]

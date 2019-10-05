@@ -1,3 +1,0 @@
--- tell
-:m +Control.Monad.Writer
-:type tell

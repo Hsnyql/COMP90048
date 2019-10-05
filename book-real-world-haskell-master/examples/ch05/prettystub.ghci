@@ -1,7 +1,0 @@
-:load PrettyStub
-
--- crash
-:type undefined
-undefined
-:type double
-double 3.14

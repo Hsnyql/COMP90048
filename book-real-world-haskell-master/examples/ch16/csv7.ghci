@@ -1,4 +1,0 @@
--- s1
-:l csv7.hs
-parseCSV "line1"
-

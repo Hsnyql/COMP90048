@@ -1,3 +1,0 @@
--- MonadIO
-:m +Control.Monad.Trans
-:info MonadIO
